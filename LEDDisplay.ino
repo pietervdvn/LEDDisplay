@@ -19,11 +19,10 @@
 
 
 // possible values for a pixel;
-#define BLACK  0
-#define GREEN  1
-#define RED    2
-#define ORANGE 3
-
+const int BLACK  =0;
+const int GREEN  =1;
+const int RED    =2;
+const int ORANGE =3;
 
 #define cls          ht1632_clear
 
@@ -208,6 +207,8 @@ void ht1632_setup()
   delay(1000);
 }
 
+// Not tested yet
+#define BIT_OVERRIDE(number,n,val) number & ~(1 << n) | (val << n);
 
 /*
    plot a point on the display, with the upper left hand corner
@@ -223,7 +224,7 @@ void ht1632_plot (byte x, byte y, byte color)
   if (color != BLACK && color != GREEN && color != RED && color != ORANGE)
     return;
 
-  byte nChip = 1 + x / 16 + (y > 7 ? 2 : 0) ;
+  byte nChip = 1 + x / 16 + (y >= 8 ? 2 : 0) ;
   x = x % 16;
   y = y % 8;
   byte addr = (x << 1) + (y >> 2);
@@ -756,26 +757,6 @@ int plot_int(int i, int x, int y, byte number_of_chars, int color){
 
 void loop ()
 {
-   // cls; // clear screen
-   // plot(x, y, color); put a certain pixel on (BLACK = OFF)
-   // plot_rect(x_left_upper, y_left_upper, x_right_down, y_right_down, color); // fill a rectangle
-   // vertical_bar(x_position, width, height); colored bard vertically (Orange - green - red)
-   // plot_char('A', x, y, color); // charachters should be uppercase! x, y = upper left corner; returns the width of the character plotted
-   // plot_int( number_to_display, x, y, number_of_chars, color); if to little space to display: drops higher numbers
-
-/*
-plot_char('8',0,0,GREEN);
-delay(2500);
-plot_char('8',0,0,BLACK);
-plot_char('6',0,0,GREEN);
-delay(2500);
-plot_char('6',0,0,BLACK);
-plot_char('9',0,0,GREEN);
-delay(2500);
-plot_char('9',0,0,BLACK);
-*/
-
-
   // read the input on analog pin 0:
   int sensorValue = analogRead(A0);
   // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
@@ -802,21 +783,5 @@ plot_char('9',0,0,BLACK);
   plot_int(ufvoltage,0,0,2,BLACK);
   plot_int(voltage,13,0,2,BLACK);
   
-  
-  
-  /*
-  for(char c = '0'; c <= '9'; c ++){
-    plot_char(c, 0, 0, GREEN);
-    delay(250);
-    plot_char(c, 0, 0, BLACK);
-    
-  }
-  */
-  
-
-
-
-
-
- 
 }
+
