@@ -409,6 +409,7 @@ const int orange_min = 0;
 const int red_min = 11;
 
 
+
 void vertical_bar(int x, int w, int value) {
   w--;
   if (value == 0) {
@@ -627,7 +628,85 @@ byte print_char(char chr, int c) {
       plot(2,2,c);
       break;
     case '1':
-      print_char('I', c); // TODO render properly
+      //print_char('I', c); // TODO render properly
+      plot_rect(1,0,1,5,c);
+      plot(0,1,c);
+      plot_rect(0,6,2,6,c);
+      break;
+
+    case '2':
+      plot_rect(1,0,2,0,c);
+      plot(0,1,c);
+      plot_rect(3,1,3,2,c);
+      plot(2,3,c);
+      plot(1,4,c);
+      plot(0,5,c);
+      plot_rect(0,6,3,6,c);
+      plot(0,1,c);
+      break;
+      
+    case '3':
+      plot_rect(1,0,2,0,c);
+      plot(0,1,c);
+      plot_rect(3,1,3,2,c);
+      plot(2,3,c);
+      plot_rect(3,4,3,5,c);
+      plot(0,5,c);
+      plot_rect(1,6,2,6,c);
+      break;
+      
+    case '4':
+      plot_rect(0,3,2,3,c);
+      plot(2,0,c);
+      plot(1,1,c);
+      plot(0,2,c);
+      plot_rect(3,0,3,6,c);
+      break;
+
+    case '5':
+      plot_rect(0,0,3,0,c);
+      plot(0,1,c);
+      plot_rect(0,2,2,2,c);
+      plot_rect(3,3,3,5,c);
+      plot(0,5,c);
+      plot(0,3,c);
+      plot_rect(1,6,2,6,c);
+      break;            
+
+    case '6':
+      plot_rect(1,0,2,0,c);
+      plot_rect(0,1,0,5,c);
+      plot_rect(1,2,2,2,c);
+      plot_rect(3,3,3,5,c);
+      plot_rect(1,6,2,6,c);
+      break;   
+
+    case '7':
+      plot_rect(0,0,3,0,c);
+      plot_rect(3,1,3,2,c);
+      plot(2,3,c);
+      plot(1,4,c);
+      plot(0,5,c);
+      plot(0,6,c);     
+      plot(0,1,c);
+      break;
+
+    case '8':
+      plot_rect(1,0,2,0,c);
+      plot_rect(0,1,0,2,c);
+      plot_rect(3,1,3,2,c);
+      plot_rect(1,3,2,3,c);
+      plot_rect(3,4,3,5,c);
+      plot_rect(0,4,0,5,c);
+      plot_rect(1,6,2,6,c);
+      break;
+ 
+    case '9':
+      plot_rect(1,0,2,0,c);
+      plot_rect(0,1,0,3,c);
+      plot_rect(3,1,3,5,c);
+      plot_rect(1,4,2,4,c);
+      plot_rect(1,6,2,6,c);
       break;
       
       break;
@@ -664,7 +743,7 @@ char intToChar(int i){
 
 int plot_int(int i, int x, int y, byte number_of_chars, int color){
   if(number_of_chars == 0){
-    return;
+    return 0;
   }
   int last = i % 10;
   byte x_offs = (number_of_chars-1) * 5;
@@ -681,12 +760,59 @@ void loop ()
    // plot(x, y, color); put a certain pixel on (BLACK = OFF)
    // plot_rect(x_left_upper, y_left_upper, x_right_down, y_right_down, color); // fill a rectangle
    // vertical_bar(x_position, width, height); colored bard vertically (Orange - green - red)
-   // plot_char('A', x, y, color); // charachters should be uppercase! x, y = upper left corner
+   // plot_char('A', x, y, color); // charachters should be uppercase! x, y = upper left corner; returns the width of the character plotted
    // plot_int( number_to_display, x, y, number_of_chars, color); if to little space to display: drops higher numbers
-  int i = 1010;
-  plot_int(i,0, 0, 3, GREEN);
 
-  delay(10000);
+/*
+plot_char('8',0,0,GREEN);
+delay(2500);
+plot_char('8',0,0,BLACK);
+plot_char('6',0,0,GREEN);
+delay(2500);
+plot_char('6',0,0,BLACK);
+plot_char('9',0,0,GREEN);
+delay(2500);
+plot_char('9',0,0,BLACK);
+*/
+
+
+  // read the input on analog pin 0:
+  int sensorValue = analogRead(A0);
+  // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+  float fvoltage = sensorValue * (5.0 / 1023);
+  int ufvoltage = fvoltage;
+  float dvoltage = fvoltage - ufvoltage;
+  int voltage = dvoltage*100+0.5;
+
+  float fwatt = fvoltage*10;
+  int ufwatt = fwatt
+  
+  
+  plot_int(ufvoltage,0,0,2,GREEN);
+  plot_char(',',10,0,GREEN);
+  plot_int(voltage,13,0,2,GREEN);
+  plot_char('V',24,0,GREEN);
+
+  plot_int(ufwatt,0,8,3,RED);
+  plot_char(',',10,8,RED);
+  plot_int(watt,13,8,1,RED);
+  plot_char('W',24,8,RED);
+  
+  delay(250);
+  plot_int(ufvoltage,0,0,2,BLACK);
+  plot_int(voltage,13,0,2,BLACK);
+  
+  
+  
+  /*
+  for(char c = '0'; c <= '9'; c ++){
+    plot_char(c, 0, 0, GREEN);
+    delay(250);
+    plot_char(c, 0, 0, BLACK);
+    
+  }
+  */
+  
 
 
 
@@ -694,7 +820,3 @@ void loop ()
 
  
 }
-
-
-
-
