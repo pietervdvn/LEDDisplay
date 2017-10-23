@@ -785,8 +785,8 @@ plot_char('9',0,0,BLACK);
   int voltage = dvoltage*100+0.5;
 
   float fwatt = fvoltage*10;
-  int ufwatt = fwatt
-  
+  int ufwatt = fwatt;
+  float dfwatt = fwatt - ufwatt;
   
   plot_int(ufvoltage,0,0,2,GREEN);
   plot_char(',',10,0,GREEN);
@@ -795,7 +795,7 @@ plot_char('9',0,0,BLACK);
 
   plot_int(ufwatt,0,8,3,RED);
   plot_char(',',10,8,RED);
-  plot_int(watt,13,8,1,RED);
+  plot_int(dfwatt,13,8,1,RED);
   plot_char('W',24,8,RED);
   
   delay(250);
